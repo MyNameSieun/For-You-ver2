@@ -1,19 +1,27 @@
 import Avatar from 'components/common/Avatar';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link, useParams } from 'react-router-dom';
+import { getFormattedDate } from 'util/data';
 
-function Detail() {
+function Detail({ letters }) {
+  const { id } = useParams();
+
+  const [letter] = letters.filter((letter) => letter.id === id);
+  const { avatar, nickname, createdAt, content } = letter;
+
   return (
     <DetailContainer>
       <DetailBox>
-        <DetailBackClick>x</DetailBackClick>
+        <Link to="/">
+          <DetailBackClick>x</DetailBackClick>
+        </Link>
         <DetailRow>
-          <Avatar src={null} />
-          <p>닉네임</p>
-          <time>날짜</time>
+          <Avatar src={avatar} size="large" />
+          <p>{nickname}</p>
+          <time>{getFormattedDate(createdAt)}</time>
         </DetailRow>
         <DetailHr />
-        <DatailContent>내용</DatailContent>
+        <DatailContent>{content}</DatailContent>
         <DetailButton>
           <button>수정</button>
           <button>삭제</button>

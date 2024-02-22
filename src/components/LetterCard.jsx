@@ -1,18 +1,10 @@
 import styled from 'styled-components';
-
 import { useNavigate } from 'react-router-dom';
 import Avatar from './common/Avatar';
+import { getFormattedDate } from 'util/data';
 
 function LetterCard({ letter }) {
   const navigate = useNavigate();
-  const formattedDate = new Date(letter.createdAt).toLocaleDateString('ko', {
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
 
   return (
     <>
@@ -20,7 +12,7 @@ function LetterCard({ letter }) {
       <LetterBox>
         <LetterDate>
           <p>{letter.nickname}</p>
-          <time>{formattedDate}</time>
+          <time>{getFormattedDate(letter.createdAt)}</time>
         </LetterDate>
         <LetterButtonBox>
           <LetterContent>
