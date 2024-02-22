@@ -1,16 +1,16 @@
 // components/AddFormBox
-import styled from 'styled-components';
 import { useState } from 'react';
+import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
-function AddForm({ activeTab, setLetters }) {
+function AddForm({ setLetters, activeTab }) {
   const [nickname, setNickName] = useState('');
   const [content, setContent] = useState('');
 
   const onAddLetter = (e) => {
     e.preventDefault();
     if (!nickname) {
-      return alert('닉네임을 입력해주세요');
+      return alert('닉네임을 입력해주세요.');
     }
     if (!content) {
       return alert('내용을 입력해주세요.');
@@ -24,15 +24,14 @@ function AddForm({ activeTab, setLetters }) {
       content,
       writedTo: activeTab
     };
-
     setLetters((prev) => [...prev, newLetter]);
     setNickName('');
     setContent('');
   };
+
   return (
     <AddFormContainer>
       <AddFormTitle>편지를 작성해주세요.</AddFormTitle>
-
       <form onSubmit={onAddLetter}>
         <AddFormBox>
           <p>닉네임</p>

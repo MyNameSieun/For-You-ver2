@@ -1,7 +1,10 @@
 import styled from 'styled-components';
-import defaultUser from 'assets/images/user.png';
+
+import { useNavigate } from 'react-router-dom';
+import Avatar from './common/Avatar';
 
 function LetterCard({ letter }) {
+  const navigate = useNavigate();
   const formattedDate = new Date(letter.createdAt).toLocaleDateString('ko', {
     year: '2-digit',
     month: '2-digit',
@@ -13,9 +16,7 @@ function LetterCard({ letter }) {
 
   return (
     <>
-      <LetterAvatarFigure>
-        <img src={letter.avatar ?? defaultUser} alt="아바타이미지" />
-      </LetterAvatarFigure>
+      <Avatar src={letter.avatar} />
       <LetterBox>
         <LetterDate>
           <p>{letter.nickname}</p>
@@ -25,7 +26,7 @@ function LetterCard({ letter }) {
           <LetterContent>
             <p>{letter.content}</p>
           </LetterContent>
-          <LetterButton>자세히보기</LetterButton>
+          <LetterButton onClick={() => navigate(`/detail/${letter.id}`)}>자세히보기</LetterButton>
         </LetterButtonBox>
       </LetterBox>
       <Hr />
@@ -33,19 +34,6 @@ function LetterCard({ letter }) {
   );
 }
 
-const LetterAvatarFigure = styled.figure`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-
-  & img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-`;
 const LetterBox = styled.div`
   margin: -50px 70px;
 `;

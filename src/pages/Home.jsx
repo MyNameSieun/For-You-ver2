@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import fakeData from 'fakeData.json';
 
 import Navbar from 'components/common/Navbar';
 import Tabs from 'components/Tabs';
 import AddForm from 'components/AddForm';
 import LetterList from 'components/LetterList';
-import fakeData from 'fakeData.json';
 
 function Home() {
   const [activeTab, setActiveTab] = useState('토토로');
