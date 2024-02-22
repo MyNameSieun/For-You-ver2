@@ -5,9 +5,11 @@ import Navbar from 'components/common/Navbar';
 import Tabs from 'components/Tabs';
 import AddForm from 'components/AddForm';
 import LetterList from 'components/LetterList';
+import fakeData from 'fakeData.json';
 
 function Home() {
   const [activeTab, setActiveTab] = useState('토토로');
+  const [letters, setLetters] = useState(fakeData);
 
   return (
     <HomeLayout>
@@ -15,8 +17,8 @@ function Home() {
       <HomeRow>
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <HomeCol>
-          <AddForm />
-          <LetterList activeTab={activeTab} />
+          <AddForm activeTab={activeTab} setLetters={setLetters} />
+          <LetterList activeTab={activeTab} letters={letters} />
         </HomeCol>
       </HomeRow>
     </HomeLayout>

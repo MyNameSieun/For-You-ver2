@@ -1,18 +1,57 @@
 // components/AddFormBox
 import styled from 'styled-components';
+import { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 
-function AddForm() {
+function AddForm({ activeTab, setLetters }) {
+  const [nickname, setNickName] = useState('');
+  const [content, setContent] = useState('');
+
+  const onAddLetter = (e) => {
+    e.preventDefault();
+    if (!nickname) {
+      return alert('닉네임을 입력해주세요');
+    }
+    if (!content) {
+      return alert('내용을 입력해주세요.');
+    }
+
+    const newLetter = {
+      id: uuid(),
+      createdAt: new Date(),
+      nickname,
+      avatar: null,
+      content,
+      writedTo: activeTab
+    };
+
+    setLetters((prev) => [...prev, newLetter]);
+    setNickName('');
+    setContent('');
+  };
   return (
     <AddFormContainer>
       <AddFormTitle>편지를 작성해주세요.</AddFormTitle>
-      <form>
+
+      <form onSubmit={onAddLetter}>
         <AddFormBox>
           <p>닉네임</p>
-          <input type="text" placeholder="최대 20글자까지 작성할 수 있습니다." maxLength={20} />
+          <input
+            type="text"
+            placeholder="최대 20글자까지 작성할 수 있습니다."
+            maxLength={20}
+            value={nickname}
+            onChange={(e) => setNickName(e.target.value)}
+          />
         </AddFormBox>
         <AddFormBox>
           <p>내용</p>
-          <textarea placeholder="최대 600글자까지 작성할 수 있습니다." maxLength={600}></textarea>
+          <textarea
+            placeholder="최대 600글자까지 작성할 수 있습니다."
+            maxLength={600}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          ></textarea>
         </AddFormBox>
         <AddFormBox>
           <AddFormButton>편지 등록</AddFormButton>
