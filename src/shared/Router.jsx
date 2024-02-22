@@ -10,7 +10,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home letters={letters} setLetters={setLetters} />} />
-        <Route path="/detail/:id" element={<Detail letters={letters} />} />
+        <Route path="/detail/:id" element={<Detail letters={letters} setLetters={setLetters} />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     </BrowserRouter>

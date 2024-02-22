@@ -5,9 +5,11 @@ function LetterList({ activeTab, letters }) {
   const filteredLetters = letters.filter((letter) => letter.writedTo === activeTab);
   return (
     <LetterContainer>
-      {filteredLetters.map((letter, index) => (
-        <LetterCard letter={letter} key={index} />
-      ))}
+      {filteredLetters.length === 0 ? (
+        <p>{activeTab}에게 남겨진 편지가 없습니다.</p>
+      ) : (
+        filteredLetters.map((letter, index) => <LetterCard letter={letter} key={index} />)
+      )}
     </LetterContainer>
   );
 }

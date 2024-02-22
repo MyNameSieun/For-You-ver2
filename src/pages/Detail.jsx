@@ -1,14 +1,21 @@
 import Avatar from 'components/common/Avatar';
 import styled from 'styled-components';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getFormattedDate } from 'util/data';
 
-function Detail({ letters }) {
+function Detail({ letters, setLetters }) {
+  const navigate = useNavigate();
   const { id } = useParams();
+  const { avatar, nickname, createdAt, content } = letters.find((letter) => letter.id === id);
 
-  const [letter] = letters.filter((letter) => letter.id === id);
-  const { avatar, nickname, createdAt, content } = letter;
+  const handleDeleteBtn = () => {
+    const answer = window.confirm('정말로 삭제 하시겠습니까?');
+    if (!answer) return;
 
+    const newLetters = letters.filter((letters) => letters.id !== id);
+    navigate('/');
+    setLetters(newLetters);
+  };
   return (
     <DetailContainer>
       <DetailBox>
@@ -24,7 +31,7 @@ function Detail({ letters }) {
         <DatailContent>{content}</DatailContent>
         <DetailButton>
           <button>수정</button>
-          <button>삭제</button>
+          <button onClick={handleDeleteBtn}>삭제</button>
         </DetailButton>
       </DetailBox>
     </DetailContainer>
