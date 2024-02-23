@@ -1,9 +1,14 @@
 // components/AddFormBox
-import { useState } from 'react';
+
+import { ActiveTabContext } from 'context/ActiveTabContext';
+import { LetterContext } from 'context/LetterContext';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
-function AddForm({ setLetters, activeTab }) {
+function AddForm() {
+  const { activeTab } = useContext(ActiveTabContext);
+  const { setLetters } = useContext(LetterContext);
   const [nickname, setNickName] = useState('');
   const [content, setContent] = useState('');
 

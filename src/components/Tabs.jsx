@@ -1,6 +1,9 @@
+import { ActiveTabContext } from 'context/ActiveTabContext';
+import { useContext } from 'react';
 import styled, { css } from 'styled-components';
 
-function Tabs({ activeTab, setActiveTab }) {
+function Tabs() {
+  const { activeTab, setActiveTab } = useContext(ActiveTabContext);
   const tabItems = ['토토로', '키키', '포뇨', '치히로', '소피', '가오나시'];
 
   const onActiveTab = (e) => {

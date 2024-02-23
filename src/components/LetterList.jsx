@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 import LetterCard from './LetterCard';
+import { useContext } from 'react';
+import { ActiveTabContext } from 'context/ActiveTabContext';
+import { LetterContext } from 'context/LetterContext';
 
-function LetterList({ activeTab, letters }) {
+function LetterList() {
+  const { activeTab } = useContext(ActiveTabContext);
+  const { letters } = useContext(LetterContext);
   const filteredLetters = letters.filter((letter) => letter.writedTo === activeTab);
   return (
     <LetterContainer>
