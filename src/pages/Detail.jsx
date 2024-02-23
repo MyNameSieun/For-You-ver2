@@ -2,8 +2,12 @@ import Avatar from 'components/common/Avatar';
 import styled from 'styled-components';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getFormattedDate } from 'util/data';
+import { useState } from 'react';
 
 function Detail({ letters, setLetters }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingText, setEditingText] = useState('');
+
   const navigate = useNavigate();
   const { id } = useParams();
   const { avatar, nickname, createdAt, content } = letters.find((letter) => letter.id === id);
@@ -16,11 +20,27 @@ function Detail({ letters, setLetters }) {
     navigate('/');
     setLetters(newLetters);
   };
+
+  const onEditDone = () => {
+    if (!editingText) return alert('수정사항이 없습니다.');
+    const newLetters = letters.map((letter) => {
+      if (letter.id === id) {
+        return { ...letter, content: editingText };
+      }
+
+      return letter;
+    });
+
+    setLetters(newLetters);
+    setIsEditing(false);
+    setEditingText('');
+  };
+
   return (
     <DetailContainer>
       <DetailBox>
         <Link to="/">
-          <DetailBackClick>x</DetailBackClick>
+          <DetailBackClick onClick={setIsEditing}>x</DetailBackClick>
         </Link>
         <DetailRow>
           <Avatar src={avatar} size="large" />
@@ -28,11 +48,28 @@ function Detail({ letters, setLetters }) {
           <time>{getFormattedDate(createdAt)}</time>
         </DetailRow>
         <DetailHr />
-        <DatailContent>{content}</DatailContent>
-        <DetailButton>
-          <button>수정</button>
-          <button onClick={handleDeleteBtn}>삭제</button>
-        </DetailButton>
+        {isEditing ? (
+          <>
+            <DetailTextarea
+              autoFocus
+              defaultValue={content}
+              onChange={(e) => setEditingText(e.target.value)}
+            ></DetailTextarea>
+            <DetailButton>
+              <button onClick={onEditDone}>수정 완료</button>
+              <button onClick={() => setIsEditing(false)}>취소</button>
+            </DetailButton>
+          </>
+        ) : (
+          <>
+            <DatailContent>{content}</DatailContent>
+            <DetailButton>
+              <button onClick={() => setIsEditing(true)}>수정</button>
+              <button onClick={handleDeleteBtn}>삭제</button>
+            </DetailButton>
+          </>
+        )}
+        {isEditing}
       </DetailBox>
     </DetailContainer>
   );
@@ -61,8 +98,18 @@ const DatailContent = styled.p`
   color: #7b7b7b;
   width: 440px;
   height: 600px;
-  overflow-y: scroll;
   margin: 3px 0 0 25px;
+  font-size: 16px;
+`;
+const DetailTextarea = styled.textarea`
+  color: #7b7b7b;
+  width: 440px;
+  height: 600px;
+  margin: 3px 0 0 25px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 16px;
 `;
 
 const DetailButton = styled.div`
@@ -73,13 +120,13 @@ const DetailButton = styled.div`
   align-items: end;
 
   & button {
-    margin-right: 5px;
+    margin-right: 3px;
     margin-bottom: 20px;
     background-color: #1e1e1e;
     color: white;
     border-radius: 8px;
     height: 33px;
-    width: 65px;
+    width: 68px;
     font-size: 12px;
     cursor: pointer;
   }
