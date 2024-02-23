@@ -2,9 +2,11 @@ import Avatar from 'components/common/Avatar';
 import styled from 'styled-components';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getFormattedDate } from 'util/data';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { LetterContext } from 'context/LetterContext';
 
-function Detail({ letters, setLetters }) {
+function Detail() {
+  const { letters, setLetters } = useContext(LetterContext);
   const [isEditing, setIsEditing] = useState(false);
   const [editingText, setEditingText] = useState('');
 
