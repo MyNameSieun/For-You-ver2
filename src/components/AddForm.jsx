@@ -1,14 +1,14 @@
 // components/AddFormBox
-
-import { ActiveTabContext } from 'context/ActiveTabContext';
-import { LetterContext } from 'context/LetterContext';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLetter } from 'store/modules/letters';
 
 function AddForm() {
-  const { activeTab } = useContext(ActiveTabContext);
-  const { setLetters } = useContext(LetterContext);
+  const activeTab = useSelector((state) => state.activeTab);
+  const dispatch = useDispatch();
+
   const [nickname, setNickName] = useState('');
   const [content, setContent] = useState('');
 
@@ -29,7 +29,9 @@ function AddForm() {
       content,
       writedTo: activeTab
     };
-    setLetters((prev) => [...prev, newLetter]);
+
+    dispatch(addLetter(newLetter));
+
     setNickName('');
     setContent('');
   };

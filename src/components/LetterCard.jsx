@@ -67,7 +67,6 @@ const LetterButton = styled.button`
   color: white;
   border-radius: 8px;
   height: 40px;
-  width: 100px;
   font-size: 14px;
   font-weight: bold;
   margin-left: 10px;
