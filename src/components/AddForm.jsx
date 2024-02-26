@@ -7,8 +7,6 @@ import { addLetter } from 'store/modules/letters';
 
 function AddForm() {
   const activeTab = useSelector((state) => state.activeTab);
-  // const { setLetters } = useContext(LetterContext);
-
   const dispatch = useDispatch();
 
   const [nickname, setNickName] = useState('');
