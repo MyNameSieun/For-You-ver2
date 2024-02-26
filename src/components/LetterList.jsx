@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import LetterCard from './LetterCard';
-import { useContext } from 'react';
-import { ActiveTabContext } from 'context/ActiveTabContext';
-import { LetterContext } from 'context/LetterContext';
+import { useSelector } from 'react-redux';
 
 function LetterList() {
-  const { activeTab } = useContext(ActiveTabContext);
-  const { letters } = useContext(LetterContext);
+  const activeTab = useSelector((state) => state.activeTab);
+  const letters = useSelector((state) => state.letters);
+
   const filteredLetters = letters.filter((letter) => letter.writedTo === activeTab);
   return (
     <LetterContainer>

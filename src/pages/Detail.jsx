@@ -2,11 +2,15 @@ import Avatar from 'components/common/Avatar';
 import styled from 'styled-components';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getFormattedDate } from 'util/data';
-import { useContext, useState } from 'react';
-import { LetterContext } from 'context/LetterContext';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteLetter, editLetter } from 'store/modules/letters';
 
 function Detail() {
-  const { letters, setLetters } = useContext(LetterContext);
+  // 상태 변경을 위한 dispatch 함수 정의
+  const dispatch = useDispatch();
+  const letters = useSelector((state) => state.letters);
+
   const [isEditing, setIsEditing] = useState(false);
   const [editingText, setEditingText] = useState('');
 
@@ -18,22 +22,15 @@ function Detail() {
     const answer = window.confirm('정말로 삭제 하시겠습니까?');
     if (!answer) return;
 
-    const newLetters = letters.filter((letters) => letters.id !== id);
+    // 리듀서 안에서 삭제 로직을 처리하고 있으므로 리액트에선 상태 변경을 요청하면 된다.
+    dispatch(deleteLetter(id));
     navigate('/');
-    setLetters(newLetters);
   };
 
   const onEditDone = () => {
     if (!editingText) return alert('수정사항이 없습니다.');
-    const newLetters = letters.map((letter) => {
-      if (letter.id === id) {
-        return { ...letter, content: editingText };
-      }
 
-      return letter;
-    });
-
-    setLetters(newLetters);
+    dispatch(editLetter({ id, editingText }));
     setIsEditing(false);
     setEditingText('');
   };
