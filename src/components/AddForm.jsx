@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addLetter } from 'store/modules/letters';
+import { addLetter } from 'store/modules/letterSlice';
 
 function AddForm() {
   const activeTab = useSelector((state) => state.activeTab);
@@ -23,7 +23,7 @@ function AddForm() {
 
     const newLetter = {
       id: uuid(),
-      createdAt: new Date(),
+      createdAt: new Date().toString(),
       nickname,
       avatar: null,
       content,

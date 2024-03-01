@@ -1,16 +1,15 @@
 import styled, { css } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux'; // import
-import { setActiveTab } from 'store/modules/activeTab'; // import
+import { useSelector, useDispatch } from 'react-redux';
+import { setActiveTab } from 'store/modules/activeTabSlice';
 
 function Tabs() {
-  const activeTab = useSelector((state) => state.activeTab); // state 가져오기
+  const activeTab = useSelector((state) => state.activeTab);
   const dispatch = useDispatch();
 
   const tabItems = ['토토로', '키키', '포뇨', '치히로', '소피', '가오나시'];
 
   const onActiveTab = (e) => {
     if (e.target === e.currentTarget) return;
-    // 상태 변경 요청 (dispatch를 해서 액션 객체 리듀서에게 전달)
     dispatch(setActiveTab(e.target.textContent));
   };
 

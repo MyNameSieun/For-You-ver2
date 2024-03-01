@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getFormattedDate } from 'util/data';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteLetter, editLetter } from 'store/modules/letters';
+import { deleteLetter, editLetter } from 'store/modules/letterSlice';
 
 function Detail() {
   // 상태 변경을 위한 dispatch 함수 정의
