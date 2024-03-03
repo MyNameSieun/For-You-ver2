@@ -4,6 +4,7 @@ import { login } from 'store/modules/authSlice';
 import styled, { css } from 'styled-components';
 import { toast } from 'react-toastify';
 import useForm from 'hooks/useForm';
+import { authApi } from 'api';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -13,17 +14,38 @@ const Login = () => {
   const { formState, onChangeHandler, resetForm } = useForm({ id: '', password: '', nickname: '' });
   const { id, password, nickname } = formState;
 
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
     if (isLoginMode) {
       // 로그인 처리
-      dispatch(login());
-      toast.success('로그인 성공');
+      try {
+        const { data } = await authApi.post('/login', {
+          id,
+          password
+        });
+        if (data.success) {
+          dispatch(login(data.accessToken));
+          toast.success('로그인 성공');
+        }
+      } catch (err) {
+        toast.error(err.response.data.message);
+      }
     } else {
-      // 회원가입 처리
-      setIsLoginMode(true);
-      resetForm();
-      toast.success('회원가입 성공');
+      try {
+        // 회원가입 처리
+        const { data } = await authApi.post('/register', {
+          id,
+          password,
+          nickname
+        });
+        if (data.success) {
+          setIsLoginMode(true);
+          resetForm();
+          toast.success('회원가입 성공');
+        }
+      } catch (err) {
+        toast.error(err.response.data.message);
+      }
     }
   };
 
