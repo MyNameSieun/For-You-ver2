@@ -23,8 +23,12 @@ const Login = () => {
           id,
           password
         });
+
+        // 아래 코드 추가
+        const { accessToken, avater, nickname, userId } = data;
         if (data.success) {
-          dispatch(login(data.accessToken));
+          // payload로 accessToken, avater, nickname, userId 을 넘겨주기
+          dispatch(login({ accessToken, avater, nickname, userId }));
           toast.success('로그인 성공');
         }
       } catch (err) {

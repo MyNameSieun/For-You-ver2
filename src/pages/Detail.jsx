@@ -7,9 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteLetter, editLetter } from 'store/modules/letterSlice';
 
 function Detail() {
-  // 상태 변경을 위한 dispatch 함수 정의
   const dispatch = useDispatch();
-  const letters = useSelector((state) => state.letters);
+  const letters = useSelector((state) => state.letters.letters);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editingText, setEditingText] = useState('');
@@ -21,8 +20,6 @@ function Detail() {
   const handleDeleteBtn = () => {
     const answer = window.confirm('정말로 삭제 하시겠습니까?');
     if (!answer) return;
-
-    // 리듀서 안에서 삭제 로직을 처리하고 있으므로 리액트에선 상태 변경을 요청하면 된다.
     dispatch(deleteLetter(id));
     navigate('/');
   };

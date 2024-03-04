@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Navbar from 'components/common/Navbar';
 import Tabs from 'components/Tabs';
 import AddForm from 'components/AddForm';
 import LetterList from 'components/LetterList';
@@ -7,7 +6,6 @@ import LetterList from 'components/LetterList';
 function Home() {
   return (
     <HomeLayout>
-      <Navbar />
       <HomeRow>
         <Tabs />
         <HomeCol>
