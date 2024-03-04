@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const initialState = {
   letters: [],
-  isLoding: false,
+  isLoading: false,
   isError: false,
   error: null
 };
@@ -49,19 +49,39 @@ const letterSlice = createSlice({
       const newLetter = action.payload;
       return [newLetter, ...state];
     },
+    // state가 객체인데 배열 메소드인 map을 사용하려고 해서 문제 발생
+    // letterSlice의 초기 상태는 letters 속성을 가진 객체이다.
+    // 따라서 letters이 배열이 되도록 해줘야함.
+    // 근데 왜 업데이트가 안되지?
+    // deleteLetter: (state, action) => {
+    //   const letterId = action.payload;
+    //   return state.filter((letter) => letter.id !== letterId);
+    // },
+
+    // editLetter: (state, action) => {
+    //   const { id, editingText } = action.payload;
+    //   return state.map((letter) => {
+    //     if (letter.id === id) {
+    //       return { ...letter, content: editingText };
+    //     }
+    //     return letter;
+    //   });
+    // },
     deleteLetter: (state, action) => {
       const letterId = action.payload;
-      console.log(state);
-      return state.filter((letter) => letter.id !== letterId);
+      return { ...state, letters: state.letters.filter((letter) => letter.id !== letterId) };
     },
     editLetter: (state, action) => {
       const { id, editingText } = action.payload;
-      return state.map((letter) => {
-        if (letter.id === id) {
-          return { ...letter, content: editingText };
-        }
-        return letter;
-      });
+      return {
+        ...state,
+        letters: state.letters.map((letter) => {
+          if (letter.id === id) {
+            return { ...letter, content: editingText };
+          }
+          return letter;
+        })
+      };
     }
   },
   extraReducers: (builder) => {

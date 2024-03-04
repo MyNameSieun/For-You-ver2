@@ -9,7 +9,6 @@ import { deleteLetter, editLetter } from 'store/modules/letterSlice';
 function Detail() {
   const dispatch = useDispatch();
   const letters = useSelector((state) => state.letters.letters);
-
   const [isEditing, setIsEditing] = useState(false);
   const [editingText, setEditingText] = useState('');
 
