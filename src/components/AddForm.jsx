@@ -1,15 +1,14 @@
-// components/AddFormBox
+// src > components > AddFormBox
 import { useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addLetter } from 'store/modules/letters';
+import { __addLetter } from 'store/modules/letterSlice';
 
 function AddForm() {
   const activeTab = useSelector((state) => state.activeTab);
   const dispatch = useDispatch();
-
-  const [nickname, setNickName] = useState('');
+  const { avatar, nickname, userId } = useSelector((state) => state.auth);
   const [content, setContent] = useState('');
 
   const onAddLetter = (e) => {
@@ -23,16 +22,15 @@ function AddForm() {
 
     const newLetter = {
       id: uuid(),
-      createdAt: new Date(),
+      createdAt: new Date().toString(),
       nickname,
-      avatar: null,
+      avatar,
       content,
-      writedTo: activeTab
+      writedTo: activeTab,
+      userId
     };
 
-    dispatch(addLetter(newLetter));
-
-    setNickName('');
+    dispatch(__addLetter(newLetter));
     setContent('');
   };
 
@@ -42,13 +40,7 @@ function AddForm() {
       <form onSubmit={onAddLetter}>
         <AddFormBox>
           <p>닉네임</p>
-          <input
-            type="text"
-            placeholder="최대 20글자까지 작성할 수 있습니다."
-            maxLength={20}
-            value={nickname}
-            onChange={(e) => setNickName(e.target.value)}
-          />
+          <p>{nickname}</p>
         </AddFormBox>
         <AddFormBox>
           <p>내용</p>
@@ -59,7 +51,7 @@ function AddForm() {
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </AddFormBox>
-        <AddFormBox>
+        <AddFormBox $flexEnd>
           <AddFormButton>편지 등록</AddFormButton>
         </AddFormBox>
       </form>
@@ -83,12 +75,16 @@ const AddFormTitle = styled.h1`
 `;
 const AddFormBox = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: ${(props) => (props.$flexEnd ? 'flex-end' : '')};
 
   & p {
     font-size: 16px;
     margin-top: 5px;
     width: 7%;
+  }
+  & p:nth-child(2) {
+    margin-left: 20px;
+    margin-bottom: 15px;
   }
   & input,
   textarea {

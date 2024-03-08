@@ -1,12 +1,23 @@
+// src > components > LetterList
 import styled from 'styled-components';
 import LetterCard from './LetterCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { __getLetters } from 'store/modules/letterSlice';
 
 function LetterList() {
+  const dispatch = useDispatch();
   const activeTab = useSelector((state) => state.activeTab);
-  const letters = useSelector((state) => state.letters);
+  const letters = useSelector((state) => state.letters.letters);
 
+  // sort를 해준 다음에 렌더링
   const filteredLetters = letters.filter((letter) => letter.writedTo === activeTab);
+
+  useEffect(() => {
+    // getLetters
+    dispatch(__getLetters());
+  }, [dispatch]);
+
   return (
     <LetterContainer>
       {filteredLetters.length === 0 ? (

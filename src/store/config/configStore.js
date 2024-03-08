@@ -1,8 +1,11 @@
-import { createStore, combineReducers } from 'redux';
-import letters from 'store/modules/letters';
-import activeTab from 'store/modules/activeTab';
+import letters from 'store/modules/letterSlice';
+import activeTab from 'store/modules/activeTabSlice';
+import auth from 'store/modules/authSlice';
 
-const rootReducer = combineReducers({ letters, activeTab });
-const store = createStore(rootReducer);
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+
+const rootReducer = combineReducers({ letters, activeTab, auth });
+
+const store = configureStore({ reducer: rootReducer });
 
 export default store;
